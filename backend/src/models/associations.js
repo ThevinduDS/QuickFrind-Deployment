@@ -1,9 +1,9 @@
-// associations.js
 const User = require('./user.model');
 const Service = require('./service.model');
+const ServiceImage = require('./serviceImage.model');
 const Category = require('./category.model');
 const Review = require('./review.model');
-const Transaction = require('./transaction.model');
+const Transaction = require('./transaction.model'); // Payment model
 const Booking = require('./booking.model');
 const Notification = require('./notification.model');
 const Rating = require('./rating.model');
@@ -11,11 +11,15 @@ const Admin = require('./admin.model');
 const Message = require('./message.model');
 const Favourite = require('./favourite.model');
 
-// Define associations
+// Define associations payment
 
 // User - Service (Provider)
 User.hasMany(Service, { foreignKey: 'providerId', as: 'services' });
 Service.belongsTo(User, { foreignKey: 'providerId', as: 'provider' });
+
+// Service - ServiceImage (one-to-many)
+Service.hasMany(ServiceImage, { foreignKey: 'serviceId', as: 'images' });
+ServiceImage.belongsTo(Service, { foreignKey: 'serviceId' });
 
 // Service - Category (by categoryId)
 Category.hasMany(Service, { foreignKey: 'categoryId' });
@@ -37,7 +41,15 @@ Booking.belongsTo(User, { foreignKey: 'buyerId' });
 Service.hasMany(Booking, { foreignKey: 'serviceId' });
 Booking.belongsTo(Service, { foreignKey: 'serviceId' });
 
-// Transaction - Booking
+// Transaction (Payment) - Service (for provider payments)
+Service.hasMany(Transaction, { foreignKey: 'serviceId' });
+Transaction.belongsTo(Service, { foreignKey: 'serviceId' });
+
+// Transaction (Payment) - User (for provider payments)
+User.hasMany(Transaction, { foreignKey: 'providerId' });
+Transaction.belongsTo(User, { foreignKey: 'providerId' });
+
+// Transaction - Booking (If related to a specific booking)
 Booking.hasOne(Transaction, { foreignKey: 'bookingId', onDelete: 'CASCADE' });
 Transaction.belongsTo(Booking, { foreignKey: 'bookingId' });
 
@@ -68,6 +80,7 @@ Favourite.belongsTo(Service, { foreignKey: 'serviceId' });
 module.exports = {
     User,
     Service,
+    ServiceImage,
     Category,
     Review,
     Transaction,

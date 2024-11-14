@@ -37,10 +37,6 @@ const Service = sequelize.define('Service', {
         type: DataTypes.ENUM('pending', 'active', 'inactive', 'rejected'),
         defaultValue: 'pending'
     },
-    images: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-        defaultValue: []
-    },
     availableDays: {
         type: DataTypes.ARRAY(DataTypes.STRING),
         defaultValue: []

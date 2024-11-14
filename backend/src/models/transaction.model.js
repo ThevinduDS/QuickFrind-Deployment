@@ -1,35 +1,56 @@
-// transaction.model.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
-const Booking = require('./booking.model');
+const sequelize = require('../config/database'); // Adjust the path as needed
 
 const Transaction = sequelize.define('Transaction', {
-    id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
+    payment_id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true
     },
-    // bookingId: {
-    //     type: DataTypes.UUID,
-    //     allowNull: false,
-    //     references: { model: Booking, key: 'id' }
-    // },
+    providerId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: 'Users',
+            key: 'id'
+        }
+    },
+    serviceId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+            model: 'Services',
+            key: 'id'
+        }
+    },
     amount: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false
     },
-    status: {
-        type: DataTypes.ENUM('pending', 'completed', 'failed'),
-        defaultValue: 'pending'
+    currency: {
+        type: DataTypes.STRING(3),
+        defaultValue: 'LKR'
     },
-    transactionDate: {
+    status: {
+        type: DataTypes.STRING,
+        defaultValue: 'pending' // e.g., 'completed', 'failed'
+    },
+    transactionId: {
+        type: DataTypes.STRING,
+        unique: true,
+        allowNull: true
+    },
+    createdAt: {
         type: DataTypes.DATE,
-        allowNull: false
+        defaultValue: DataTypes.NOW
+    },
+    updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true
     }
-}, { timestamps: true });
-
-// Associations
-Booking.hasOne(Transaction, { foreignKey: 'bookingId', onDelete: 'CASCADE' });
-Transaction.belongsTo(Booking, { foreignKey: 'bookingId' });
+}, {
+    tableName: 'payment',
+    timestamps: true
+});
 
 module.exports = Transaction;
