@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickFind.LK - Customer Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#1e40af',
+                        'primary-light': '#3b82f6',
+                        'background': '#f0f4f8',
+                        'text-secondary': '#64748b',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-background font-sans">
+    <header class="bg-primary text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="/">
+                <img src="../icons/quickfind logo .png" style="height:50px;" alt="QuickFind.LK Logo">
+            </a>
+            <nav>
+                <a href="index.html" class="hover:text-primary-light transition duration-300 mr-4">Home</a>
+                <a href="#" class="hover:text-primary-light transition duration-300 mr-4">Services</a>
+                <!-- <a href="/profile" class="hover:text-primary-light transition duration-300">Profile</a> -->
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto mt-8 px-4">
+        <!-- Profile Header -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex flex-col md:flex-row items-start md:items-center gap-6 profile">
+                <img src="" alt="Customer Profile"
+                    class="rounded-full w-32 h-32 object-cover border-2 border-primary profile-image">
+                <div class="flex-grow">
+                    <h1 class="text-3xl font-bold text-primary mb-2 profile-name"></h1>
+                    <!-- <p class="text-text-secondary mb-2">
+                        <span class="material-icons text-sm align-middle mr-1">location_on</span>
+                        <span class="profile-location"></span>
+                    </p> -->
+                    <p class="text-text-secondary">
+                        <span class="material-icons text-sm align-middle mr-1">email</span>
+                        <span class="profile-email"></span>
+                    </p>
+                    <p class="text-text-secondary">
+                        <span class="material-icons text-sm align-middle mr-1">phone</span>
+                        <span class="profile-phone"></span>
+                    </p>
+                </div>
+                <div class="flex gap-4 items-center">
+                    <!-- Profile Edit Form -->
+                    <form id="userProfile" class="flex items-center">
+                        <input type="file" id="profileImage" hidden>
+                
+                        <!-- Label as button to trigger the file input -->
+                        <label for="profileImage"
+                            class="bg-primary text-white px-6 py-2 rounded-full hover:bg-primary-light transition duration-300 cursor-pointer">
+                            Edit Profile
+                        </label>
+                    </form>
+                
+                    <!-- Message Button -->
+                    <a href="/messages"
+                        class="bg-primary-light text-white px-6 py-2 rounded-full hover:bg-primary transition duration-300">
+                        <span class="material-icons align-middle mr-1">message</span>
+                        Message
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Left Column -->
+            <div class="md:col-span-2 space-y-6">
+                <!-- Account Information -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-bold text-primary mb-4">Account Information</h2>
+                    <p class="text-text-secondary">Account type: <span class="text-text-secondary profile-role"></span>
+                    </p>
+                    <p class="text-text-secondary">Status: <span class="text-text-secondary profile-status"></span></p>
+                </div>
+
+                <!-- Recent Activity Section -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-bold text-primary mb-4">Recent Activity</h2>
+                    <ul class="space-y-4">
+                        <li class="flex items-center text-text-secondary">
+                            <span class="material-icons text-primary mr-2">history</span>
+                            Booked "Plumbing Services" on 1st November 2024
+                        </li>
+                        <li class="flex items-center text-text-secondary">
+                            <span class="material-icons text-primary mr-2">history</span>
+                            Favorited "John's Electrical Services" on 28th October 2024
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="space-y-6">
+                <!-- Contact Support Section -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-bold text-primary mb-4">Need Help?</h2>
+                    <p class="text-text-secondary mb-4">If you have any issues or need support, please contact us.</p>
+                    <button
+                        class="bg-primary text-white px-6 py-2 rounded-full hover:bg-primary-light transition duration-300">
+                        Contact Support
+                    </button>
+                </div>
+
+                <!-- Account Settings Section -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-xl font-bold text-primary mb-4">Account Settings</h2>
+                    <div class="space-y-4">
+                        <button
+                            class="w-full bg-primary text-white px-6 py-2 rounded-full hover:bg-primary-light transition duration-300">
+                            Change Password
+                        </button>
+                        <button
+                            class="w-full border border-primary text-primary px-6 py-2 rounded-full hover:bg-primary hover:text-white transition duration-300">
+                            Log Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-primary text-white py-12 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-xl font-bold mb-4">QuickFind.LK</h4>
+                    <p class="text-sm">Connecting you with trusted service providers across Sri Lanka.</p>
+                </div>
+                <div>
+                    <h5 class="font-bold mb-4">Quick Links</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-primary-light transition duration-300">Home</a></li>
+                        <li><a href="#" class="hover:text-primary-light transition duration-300">About Us</a></li>
+                        <li><a href="#" class="hover:text-primary-light transition duration-300">Services</a></li>
+                        <li><a href="#" class="hover:text-primary-light transition duration-300">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold mb-4">For Providers</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-primary-light transition duration-300">Join Us</a></li>
+                        <li><a href="#" class="hover:text-primary-light transition duration-300">FAQs</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold mb-4">Follow Us</h5>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-white hover:text-primary-light transition duration-300">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-white hover:text-primary-light transition duration-300">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-white hover:text-primary-light transition duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/userProfile.js"></script>
+</body>
+
+</html>

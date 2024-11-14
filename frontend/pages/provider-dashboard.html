@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickFind.LK - Provider Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#1e40af',
+                        'primary-light': '#3b82f6',
+                        'background': '#f0f4f8',
+                        'text-secondary': '#64748b',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100">
+    <!-- Authentication Check -->
+    <script>
+        if (!localStorage.getItem('token')) {
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <!-- Dashboard Layout -->
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <div class="w-64 bg-primary text-white">
+            <!-- Logo and User Info -->
+            <div class="p-6">
+                <h1 class="text-2xl font-bold mb-2">QuickFind.LK</h1>
+                <div class="flex items-center space-x-3 mb-6">
+                    <div class="w-10 h-10 rounded-full bg-primary-light flex items-center justify-center">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium" id="providerName">Loading...</p>
+                        <p class="text-sm text-gray-300" id="providerRole">Service Provider</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="px-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#" class="flex items-center p-3 rounded hover:bg-primary-light transition-colors" data-section="overview">
+                            <i class="fas fa-home w-6"></i>
+                            <span>Overview</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center p-3 rounded hover:bg-primary-light transition-colors" data-section="services">
+                            <i class="fas fa-tools w-6"></i>
+                            <span>My Services</span>
+                        </a>
+                    </li>
+                    <!-- <li>
+                        <a href="#" class="flex items-center p-3 rounded hover:bg-primary-light transition-colors" data-section="bookings">
+                            <i class="fas fa-calendar-alt w-6"></i>
+                            <span>Bookings</span>
+                        </a>
+                    </li> -->
+                    <li>
+                        <a href="#" class="flex items-center p-3 rounded hover:bg-primary-light transition-colors" data-section="reviews">
+                            <i class="fas fa-star w-6"></i>
+                            <span>Reviews</span>
+                        </a>
+                    </li>
+                    <!-- <li>
+                        <a href="#" class="flex items-center p-3 rounded hover:bg-primary-light transition-colors" data-section="earnings">
+                            <i class="fas fa-wallet w-6"></i>
+                            <span>Earnings</span>
+                        </a>
+                    </li> -->
+                    <li>
+                        <a href="#" class="flex items-center p-3 rounded hover:bg-primary-light transition-colors" data-section="profile">
+                            <i class="fas fa-user-cog w-6"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Logout Button -->
+            <div class="px-4 mt-8">
+                <button onclick="logout()" class="flex items-center p-3 w-full rounded hover:bg-primary-light transition-colors">
+                    <i class="fas fa-sign-out-alt w-6"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-x-hidden">
+            <!-- Top Bar -->
+            <div class="bg-white shadow-sm">
+                <div class="flex justify-between items-center px-8 py-4">
+                    <h2 class="text-2xl font-bold" id="sectionTitle">Dashboard</h2>
+                    <div class="flex items-center space-x-4">
+                        <button class="p-2 rounded-full hover:bg-gray-100">
+                            <i class="fas fa-bell text-gray-600"></i>
+                        </button>
+                        <button class="p-2 rounded-full hover:bg-gray-100">
+                            <i class="fas fa-cog text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Sections -->
+            <div class="p-8">
+                <!-- Overview Section -->
+                <div id="overview" class="dashboard-section">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <!-- Stats Cards -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-gray-500">Active Services</h3>
+                                <i class="fas fa-tools text-primary"></i>
+                            </div>
+                            <p class="text-3xl font-bold" id="activeServicesCount">0</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-gray-500">Pending Bookings</h3>
+                                <i class="fas fa-calendar text-primary"></i>
+                            </div>
+                            <p class="text-3xl font-bold" id="pendingBookingsCount">0</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-gray-500">Total Reviews</h3>
+                                <i class="fas fa-star text-primary"></i>
+                            </div>
+                            <p class="text-3xl font-bold" id="totalReviewsCount">0</p>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <h3 class="text-xl font-bold mb-4">Recent Activity</h3>
+                        <div id="recentActivity" class="space-y-4">
+                            <!-- Activity items will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Services Section -->
+                <div id="services" class="dashboard-section hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h3 class="text-xl font-bold">My Services</h3>
+                            <p class="text-gray-500">Manage your service listings</p>
+                        </div>
+                        <button onclick="showAddServiceModal()" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-light transition-colors">
+                            <i class="fas fa-plus mr-2"></i>Add New Service
+                        </button>
+                    </div>
+
+                    <div id="servicesList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Service cards will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Bookings Section -->
+                <div id="bookings" class="dashboard-section hidden">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-xl font-bold">Bookings</h3>
+                            <div class="flex space-x-2">
+                                <select id="bookingStatusFilter" class="border rounded-lg px-3 py-2">
+                                    <option value="all">All Status</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="bookingsList" class="space-y-4">
+                            <!-- Booking items will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reviews Section -->
+                <div id="reviews" class="dashboard-section hidden">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <h3 class="text-xl font-bold mb-6">Customer Reviews</h3>
+                        <div id="reviewsList" class="space-y-6">
+                            <!-- Review items will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Earnings Section -->
+                <div id="earnings" class="dashboard-section hidden">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <h3 class="text-xl font-bold mb-6">Earnings Overview</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="text-gray-500 mb-2">Total Earnings</h4>
+                                <p class="text-3xl font-bold" id="totalEarnings">Rs. 0</p>
+                            </div>
+                            <div>
+                                <h4 class="text-gray-500 mb-2">This Month</h4>
+                                <p class="text-3xl font-bold" id="monthlyEarnings">Rs. 0</p>
+                            </div>
+                        </div>
+                        <div id="earningsChart" class="mt-6">
+                            <!-- Earnings chart will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Section -->
+                <div id="profile" class="dashboard-section hidden">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <h3 class="text-xl font-bold mb-6">Profile Settings</h3>
+                        <form id="profileForm" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                                    <input type="text" id="firstName" class="w-full p-3 border rounded-lg">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                                    <input type="text" id="lastName" class="w-full p-3 border rounded-lg">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                                <input type="email" id="email" class="w-full p-3 border rounded-lg">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                                <input type="tel" id="phone" class="w-full p-3 border rounded-lg">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                                <textarea id="address" class="w-full p-3 border rounded-lg"></textarea>
+                            </div>
+                            <div class="flex justify-end">
+                                <button type="submit" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-light transition-colors">
+                                    Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Service Modal -->
+    <div id="addServiceModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-lg p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Add New Service</h3>
+                <button onclick="hideAddServiceModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="addServiceForm" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Service Title</label>
+                    <input type="text" id="serviceTitle" required class="w-full p-3 border rounded-lg">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea id="serviceDescription" required class="w-full p-3 border rounded-lg" rows="4"></textarea>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                        <select id="serviceCategory" required class="w-full p-3 border rounded-lg">
+                            <option value="">Select Category</option>
+                            <option value="plumbing">Plumbing</option>
+                            <option value="electrical">Electrical</option>
+                            <option value="carpentry">Carpentry</option>
+                            <option value="cleaning">Cleaning</option>
+                            <option value="painting">Painting</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Service Area (km)</label>
+                        <input type="number" id="serviceArea" required class="w-full p-3 border rounded-lg">
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Price (LKR)</label>
+                        <input type="number" id="servicePrice" required class="w-full p-3 border rounded-lg">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Price Type</label>
+                        <select id="servicePriceType" required class="w-full p-3 border rounded-lg">
+                            <option value="fixed">Fixed Price</option>
+                            <option value="hourly">Hourly Rate</option>
+                            <option value="negotiable">Negotiable</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Working Hours</label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1">Start Time</label>
+                            <input type="time" id="workingHoursStart" required class="w-full p-3 border rounded-lg">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-500 mb-1">End Time</label>
+                            <input type="time" id="workingHoursEnd" required class="w-full p-3 border rounded-lg">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Available Days</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" name="availableDays" value="Monday" class="form-checkbox">
+                            <span>Monday</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" name="availableDays" value="Tuesday" class="form-checkbox">
+                            <span>Tuesday</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" name="availableDays" value="Wednesday" class="form-checkbox">
+                            <span>Wednesday</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" name="availableDays" value="Thursday" class="form-checkbox">
+                            <span>Thursday</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" name="availableDays" value="Friday" class="form-checkbox">
+                            <span>Friday</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" name="availableDays" value="Saturday" class="form-checkbox">
+                            <span>Saturday</span>
+                        </label>
+                        <label class="flex items-center space-x-2">
+                            <input type="checkbox" name="availableDays" value="Sunday" class="form-checkbox">
+                            <span>Sunday</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Service Images</label>
+                    <input type="file" id="serviceImages" multiple accept="image/*" class="w-full p-3 border rounded-lg">
+                    <p class="text-sm text-gray-500 mt-1">You can upload up to 5 images</p>
+                </div>
+
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" onclick="hideAddServiceModal()" 
+                            class="px-4 py-2 border rounded-lg hover:bg-gray-100">
+                        Cancel
+                    </button>
+                    <button type="submit" 
+                            class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-light">
+                        Add Service
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>

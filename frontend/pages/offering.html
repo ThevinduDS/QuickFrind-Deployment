@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickFind.LK - Advertise Your Offering</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#1e40af',
+                        'primary-light': '#3b82f6',
+                        'background': '#f0f4f8',
+                        'text-secondary': '#64748b',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="bg-background font-sans">
+    <header class="bg-primary text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <img src="../icons/quickfind logo .png" style="height:50px;" alt="logo">
+            <nav>
+                <a href="#" class="hover:text-primary-light transition duration-300 mr-4">How It Works</a>
+                <a href="#" class="hover:text-primary-light transition duration-300 mr-4">For Providers</a>
+                <a href="#" class="hover:text-primary-light transition duration-300">Login / Sign Up</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto mt-8 px-4">
+        <h2 class="text-3xl font-bold text-primary mb-6">Advertise Your Offering</h2>
+        <form id="offeringForm" class="bg-white rounded-lg p-8 shadow-lg max-w-2xl mx-auto">
+            <div class="mb-6">
+                <label for="offeringTitle" class="block text-sm font-medium text-gray-700 mb-2">Offering Title</label>
+                <input type="text" id="offeringTitle" name="offeringTitle"
+                    class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    required>
+            </div>
+
+            <div class="mb-6">
+                <label for="offeringCategory" class="block text-sm font-medium text-gray-700 mb-2">Offering Category</label>
+                <select id="offeringCategory" name="offeringCategory"
+                    class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    required>
+                    <option value="">Select a category</option>
+                    <option value="1">Plumber</option>
+                    <option value="2">Electrician</option>
+                    <option value="3">Carpenter</option>
+                    <option value="4">Landscaper</option>
+                </select>
+            </div>
+
+            <div class="mb-6">
+                <label for="offeringDescription" class="block text-sm font-medium text-gray-700 mb-2">Offering Description</label>
+                <textarea id="offeringDescription" name="offeringDescription" rows="4"
+                    class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    required></textarea>
+            </div>
+
+            <div class="mb-6">
+                <label for="offeringPrice" class="block text-sm font-medium text-gray-700 mb-2">Price (LKR)</label>
+                <input type="number" id="offeringPrice" name="offeringPrice" min="0" step="100"
+                    class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    required>
+            </div>
+
+            <div class="mb-6">
+                <label for="offeringLocation" class="block text-sm font-medium text-gray-700 mb-2">Offering Location</label>
+                <input type="text" id="offeringLocation" name="offeringLocation"
+                    class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    required>
+            </div>
+
+            <div class="mb-6">
+                <label for="serviceArea" class="block text-sm font-medium text-gray-700 mb-2">Service Area (in km)</label>
+                <input type="number" id="serviceArea" name="serviceArea" min="1" step="1"
+                    class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    required>
+            </div>  
+
+            <!-- New Contact Fields -->
+            <div class="mb-6">
+                <label for="contactNumber" class="block text-sm font-medium text-gray-700 mb-2">Contact Number</label>
+                <input type="tel" id="contactNumber" name="contactNumber"
+                    class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    required>
+            </div>
+
+            <div class="mb-6">
+                <label for="contactEmail" class="block text-sm font-medium text-gray-700 mb-2">Contact Email</label>
+                <input type="email" id="contactEmail" name="contactEmail"
+                    class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                    required>
+            </div>
+
+            <div class="text-center">
+                <button type="submit"
+                    class="bg-primary text-white px-6 py-3 rounded-md hover:bg-primary-light transition duration-300">Post Advertisement</button>
+            </div>
+        </form>
+    </main>
+
+    <footer class="bg-primary text-white py-12 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Footer Content -->
+            </div>
+            <div class="mt-8 text-center text-sm text-gray-300">
+                &copy; 2024 QuickFind.LK. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+<script src="../js/offering.js"></script>
+</html>
