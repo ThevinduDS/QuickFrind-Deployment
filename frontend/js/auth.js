@@ -31,10 +31,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         title: "Login Succesfull",
                         // text: "That thing is still around?",
                         icon: "success"
-                      });
-                    if(data.user.role == "customer"){
-window.location.href = '../index.html'
-                    }else if(data.user.role == "service_provider"){
+                    });
+                    if (data.user.role == "customer") {
+                        window.location.href = '../index.html'
+                    } else if (data.user.role == "service_provider") {
                         window.location.href = '../provider-dashboard.html'
 
                     }
@@ -46,7 +46,7 @@ window.location.href = '../index.html'
                         title: "Login failed!",
                         text: data.message,
                         icon: "warning"
-                      });
+                    });
                 }
             } catch (error) {
                 console.error('Login error:', error);
@@ -55,7 +55,7 @@ window.location.href = '../index.html'
                     title: "Login Failed!",
                     text: "Please try Again Later.",
                     icon: "warning"
-                  });
+                });
             }
         });
     }
@@ -70,19 +70,30 @@ window.location.href = '../index.html'
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
             const accountType = document.querySelector('input[name="accountType"]:checked').value;
-
+    
             console.log('Signup attempt:', { firstName, lastName, email, phone, password, accountType }); // Log signup attempt
-
-            if (password !== confirmPassword) {
-                // alert("Passwords don't match!");
+    
+            // Regular expression to validate phone number format
+            const phoneRegex = /^[0-9]{10}$/; // Example for a 10-digit phone number
+    
+            if (!phoneRegex.test(phone)) {
                 Swal.fire({
-                    title: "Passwords don't match!",
-                    text: "Please Recheck your Passwords.",
+                    title: "Invalid Phone Number!",
+                    text: "Please enter a valid 10-digit phone number.",
                     icon: "warning"
-                  });
+                });
                 return;
             }
-
+    
+            if (password !== confirmPassword) {
+                Swal.fire({
+                    title: "Passwords don't match!",
+                    text: "Please recheck your passwords.",
+                    icon: "warning"
+                });
+                return;
+            }
+    
             try {
                 const response = await fetch('http://localhost:3000/api/auth/register', {
                     method: 'POST',
@@ -98,35 +109,32 @@ window.location.href = '../index.html'
                         role: accountType
                     })
                 });
-
+    
                 const data = await response.json();
                 console.log('Registration response:', data); // Log the response
-
+    
                 if (response.ok) {
-                    // alert('Registration successful! Please log in.');
                     Swal.fire({
                         title: "Registration successful!",
                         text: "Please log in.",
                         icon: "success"
-                      });
+                    });
                     window.location.href = 'login.html';
                 } else {
-                    // alert(data.message || 'Registration failed');
                     Swal.fire({
                         title: "Registration failed.",
                         text: data.message,
                         icon: "warning"
-                      });
+                    });
                 }
             } catch (error) {
                 console.error('Registration error:', error);
-                // alert('Registration failed. Please try again.');
                 Swal.fire({
                     title: "Registration failed. Please try again",
-                    // text: data.message,
                     icon: "warning"
-                  });
+                });
             }
         });
     }
+    
 });

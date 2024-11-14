@@ -49,7 +49,6 @@ const Transaction = sequelize.define('Transaction', {
         allowNull: true
     }
 }, {
-    tableName: 'payment',
     timestamps: true
 });
 
