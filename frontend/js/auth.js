@@ -3,11 +3,30 @@ document.addEventListener('DOMContentLoaded', function () {
     const loginForm = document.getElementById('loginForm');
     const signupForm = document.getElementById('signupForm');
 
+    function isValidEmail(email) {
+        return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
+    }
+
+    function isValidPassword(password) {
+        return password.length >= 8;
+    }
+
+    function isValidPhoneNumber(phone) {
+        return /^(0?77|0?76|0?74|0?71|0?72|0?75)\d{6,7}$/.test(phone);// For Sri Lankan numbers starting with 0 and 10 digits
+    }
+
+    function showAlert(title, text, icon) {
+        Swal.fire({ title, text, icon });
+    }
+
     if (loginForm) {
         loginForm.addEventListener('submit', async function (e) {
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+
+            if (!isValidEmail(email)) return showAlert("Invalid Email", "Please enter a valid email.", "warning");
+            if (!isValidPassword(password)) return showAlert("Password too weak", "Must be at least 8 characters.", "warning");
 
             console.log('Login attempt:', { email, password }); // Log login attempt
 
@@ -69,13 +88,18 @@ document.addEventListener('DOMContentLoaded', function () {
             const phone = document.getElementById('phone').value;
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-            const accountType = document.querySelector('input[name="accountType"]:checked').value;
-    
+            const service_provider = document.getElementById('service_provider').value;
+            
+            const customer = document.getElementById('customer').value;
+            if (!isValidEmail(email)) return showAlert("Invalid Email", "Please enter a valid email.", "warning");
+            if (!isValidPhoneNumber(phone)) return showAlert("Invalid Phone Number", "Please enter a valid Sri Lankan number.", "warning");
+            if (!isValidPassword(password) || password !== confirmPassword) return showAlert("Passwords don't match", "Check your passwords.", "warning");
+
             console.log('Signup attempt:', { firstName, lastName, email, phone, password, accountType }); // Log signup attempt
-    
-            // Regular expression to validate phone number format
+
             const phoneRegex = /^[0-9]{10}$/; // Example for a 10-digit phone number
-    
+            // Regular expression to validate phone number fob2rmat
+
             if (!phoneRegex.test(phone)) {
                 Swal.fire({
                     title: "Invalid Phone Number!",
@@ -84,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 return;
             }
-    
+
             if (password !== confirmPassword) {
                 Swal.fire({
                     title: "Passwords don't match!",
@@ -93,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 return;
             }
-    
+
             try {
                 const response = await fetch('http://localhost:3000/api/auth/register', {
                     method: 'POST',
@@ -106,13 +130,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         email,
                         phone,
                         password,
-                        role: accountType
+                        // role: Add role here
                     })
                 });
-    
+
                 const data = await response.json();
                 console.log('Registration response:', data); // Log the response
-    
+
                 if (response.ok) {
                     Swal.fire({
                         title: "Registration successful!",
@@ -136,5 +160,5 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-    
+
 });
