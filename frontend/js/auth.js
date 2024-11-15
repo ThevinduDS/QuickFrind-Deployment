@@ -7,8 +7,32 @@ document.addEventListener('DOMContentLoaded', function () {
         return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
     }
 
-    function isValidPassword(password) {
-        return password.length >= 8;
+    function validatePassword(password) {
+        const minLength = 8;
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        const hasDigit = /\d/.test(password);
+        const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+        const errors = [];
+
+        if (password.length < minLength) {
+            errors.push("Password must be at least 8 characters long.");
+        }
+        // else if (!hasUpperCase) {
+        //     errors.push("Password must include at least one uppercase letter.");
+        // }
+        // else if (!hasLowerCase) {
+        //     errors.push("Password must include at least one lowercase letter.");
+        // }
+        // else if (!hasDigit) {
+        //     errors.push("Password must include at least one number.");
+        // }
+        // else if (!hasSpecialChar) {
+        //     errors.push("Password must include at least one special character (e.g., !@#$%^&*).");
+        // }
+
+        return errors;
     }
 
     function isValidPhoneNumber(phone) {
@@ -23,24 +47,24 @@ document.addEventListener('DOMContentLoaded', function () {
         // Check if there are saved credentials in localStorage
         const savedEmail = localStorage.getItem('savedEmail');
         const savedPassword = localStorage.getItem('savedPassword');
-        
+
         if (savedEmail && savedPassword) {
             document.getElementById('email').value = savedEmail;
             document.getElementById('password').value = savedPassword;
             document.getElementById('remember').checked = true;
         }
-        
+
         loginForm.addEventListener('submit', async function (e) {
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const rememberMe = document.getElementById('remember').checked;
-    
+
             if (!isValidEmail(email)) return showAlert("Invalid Email", "Please enter a valid email.", "warning");
-            if (!isValidPassword(password)) return showAlert("Password too weak", "Must be at least 8 characters.", "warning");
-    
+            if (!validatePassword(password)) return showAlert("Password too weak", "Must be at least 8 characters.", "warning");
+
             console.log('Login attempt:', { email, password });
-    
+
             try {
                 const response = await fetch('http://localhost:3000/api/auth/login', {
                     method: 'POST',
@@ -49,14 +73,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
                     body: JSON.stringify({ email, password })
                 });
-    
+
                 const data = await response.json();
                 console.log('Login response:', data);
-    
+
                 if (response.ok) {
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('user', JSON.stringify(data.user));
-    
+
                     // Save or clear login details based on Remember Me checkbox
                     if (rememberMe) {
                         localStorage.setItem('savedEmail', email);
@@ -65,12 +89,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         localStorage.removeItem('savedEmail');
                         localStorage.removeItem('savedPassword');
                     }
-    
+
                     Swal.fire({
                         title: "Login Successful",
                         icon: "success"
                     });
-    
+
                     if (data.user.role == "customer") {
                         window.location.href = '../index.html';
                     } else if (data.user.role == "service_provider") {
@@ -93,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-    
+
     if (signupForm) {
         signupForm.addEventListener('submit', async function (e) {
             e.preventDefault();
@@ -105,11 +129,23 @@ document.addEventListener('DOMContentLoaded', function () {
             const confirmPassword = document.getElementById('confirmPassword').value;
             const service_provider = document.getElementById('service_provider').value;
             const accountType = document.querySelector('input[name="accountType"]:checked').value;
-            
+
             const customer = document.getElementById('customer').value;
             if (!isValidEmail(email)) return showAlert("Invalid Email", "Please enter a valid email.", "warning");
             if (!isValidPhoneNumber(phone)) return showAlert("Invalid Phone Number", "Please enter a valid Sri Lankan number.", "warning");
-            if (!isValidPassword(password) || password !== confirmPassword) return showAlert("Passwords don't match", "Check your passwords.", "warning");
+            // if (!isValidPassword(password) || password !== confirmPassword) return showAlert("Passwords don't match", "Check your passwords.", "warning");
+
+            // Clear previous error messages
+            document.getElementById("passwordError").innerHTML = "";
+            document.getElementById("confirmPasswordError").innerHTML = "";
+
+            // Validate password rules
+            const errors = validatePassword(password);
+            if (errors.length > 0) {
+                const passwordErrorContainer = document.getElementById("passwordError");
+                passwordErrorContainer.innerHTML = errors.map(err => `<p class="text-red-500 text-sm">${err}</p>`).join("");
+                return false;
+            }
 
             console.log('Signup attempt:', { firstName, lastName, email, phone, password, accountType }); // Log signup attempt
 
