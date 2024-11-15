@@ -20,16 +20,27 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (loginForm) {
+        // Check if there are saved credentials in localStorage
+        const savedEmail = localStorage.getItem('savedEmail');
+        const savedPassword = localStorage.getItem('savedPassword');
+        
+        if (savedEmail && savedPassword) {
+            document.getElementById('email').value = savedEmail;
+            document.getElementById('password').value = savedPassword;
+            document.getElementById('remember').checked = true;
+        }
+        
         loginForm.addEventListener('submit', async function (e) {
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-
+            const rememberMe = document.getElementById('remember').checked;
+    
             if (!isValidEmail(email)) return showAlert("Invalid Email", "Please enter a valid email.", "warning");
             if (!isValidPassword(password)) return showAlert("Password too weak", "Must be at least 8 characters.", "warning");
-
-            console.log('Login attempt:', { email, password }); // Log login attempt
-
+    
+            console.log('Login attempt:', { email, password });
+    
             try {
                 const response = await fetch('http://localhost:3000/api/auth/login', {
                     method: 'POST',
@@ -38,29 +49,34 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
                     body: JSON.stringify({ email, password })
                 });
-
+    
                 const data = await response.json();
-                console.log('Login response:', data); // Log the response
-
+                console.log('Login response:', data);
+    
                 if (response.ok) {
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('user', JSON.stringify(data.user));
-                    // alert(JSON.stringify(data));
+    
+                    // Save or clear login details based on Remember Me checkbox
+                    if (rememberMe) {
+                        localStorage.setItem('savedEmail', email);
+                        localStorage.setItem('savedPassword', password);
+                    } else {
+                        localStorage.removeItem('savedEmail');
+                        localStorage.removeItem('savedPassword');
+                    }
+    
                     Swal.fire({
-                        title: "Login Succesfull",
-                        // text: "That thing is still around?",
+                        title: "Login Successful",
                         icon: "success"
                     });
+    
                     if (data.user.role == "customer") {
-                        window.location.href = '../index.html'
+                        window.location.href = '../index.html';
                     } else if (data.user.role == "service_provider") {
-                        window.location.href = '../provider-dashboard.html'
-
+                        window.location.href = '../provider-dashboard.html';
                     }
-
-
                 } else {
-                    // alert(data.message || 'Login failed');
                     Swal.fire({
                         title: "Login failed!",
                         text: data.message,
@@ -69,16 +85,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             } catch (error) {
                 console.error('Login error:', error);
-                // alert('Login failed. Please try again.');
                 Swal.fire({
                     title: "Login Failed!",
-                    text: "Please try Again Later.",
+                    text: "Please try again later.",
                     icon: "warning"
                 });
             }
         });
     }
-
+    
     if (signupForm) {
         signupForm.addEventListener('submit', async function (e) {
             e.preventDefault();
@@ -89,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
             const service_provider = document.getElementById('service_provider').value;
+            const accountType = document.querySelector('input[name="accountType"]:checked').value;
             
             const customer = document.getElementById('customer').value;
             if (!isValidEmail(email)) return showAlert("Invalid Email", "Please enter a valid email.", "warning");
