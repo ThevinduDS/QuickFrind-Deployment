@@ -18,7 +18,7 @@ const userValidationRules = [
     body('lastName')
         .trim()
         .escape()
-        .isLength({ min: 6 })
+        .isLength({ min: 1 })
         .withMessage('Last name required.'),
 
     body('email')

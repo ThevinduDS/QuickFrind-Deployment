@@ -93,13 +93,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     Swal.fire({
                         title: "Login Successful",
                         icon: "success"
-                    });
+                    }).then(() => {
 
-                    if (data.user.role == "customer") {
-                        window.location.href = '../index.html';
-                    } else if (data.user.role == "service_provider") {
-                        window.location.href = '../provider-dashboard.html';
-                    }
+                        if (data.user.role == "customer") {
+                            window.location.href = '../index.html';
+                        } else if (data.user.role == "service_provider") {
+                            window.location.href = '../provider-dashboard.html';
+                        }
+                    });
                 } else {
                     Swal.fire({
                         title: "Login failed!",
@@ -196,8 +197,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         title: "Registration successful!",
                         text: "Please log in.",
                         icon: "success"
+                    }).then(() => {
+                        // Redirect to login page after clicking "OK"
+                        window.location.href = 'login.html';
                     });
-                    window.location.href = 'login.html';
                 } else {
                     Swal.fire({
                         title: "Registration failed.",
