@@ -19,18 +19,18 @@ document.addEventListener('DOMContentLoaded', function () {
         if (password.length < minLength) {
             errors.push("Password must be at least 8 characters long.");
         }
-        // else if (!hasUpperCase) {
-        //     errors.push("Password must include at least one uppercase letter.");
-        // }
-        // else if (!hasLowerCase) {
-        //     errors.push("Password must include at least one lowercase letter.");
-        // }
-        // else if (!hasDigit) {
-        //     errors.push("Password must include at least one number.");
-        // }
-        // else if (!hasSpecialChar) {
-        //     errors.push("Password must include at least one special character (e.g., !@#$%^&*).");
-        // }
+        else if (!hasUpperCase) {
+            errors.push("Password must include at least one uppercase letter.");
+        }
+        else if (!hasLowerCase) {
+            errors.push("Password must include at least one lowercase letter.");
+        }
+        else if (!hasDigit) {
+            errors.push("Password must include at least one number.");
+        }
+        else if (!hasSpecialChar) {
+            errors.push("Password must include at least one special character (e.g., !@#$%^&*).");
+        }
 
         return errors;
     }
@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
         Swal.fire({ title, text, icon });
     }
 
+    //Here is the login
     if (loginForm) {
         // Check if there are saved credentials in localStorage
         const savedEmail = localStorage.getItem('savedEmail');
@@ -61,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const rememberMe = document.getElementById('remember').checked;
 
             if (!isValidEmail(email)) return showAlert("Invalid Email", "Please enter a valid email.", "warning");
-            if (!validatePassword(password)) return showAlert("Password too weak", "Must be at least 8 characters.", "warning");
+            // if (!validatePassword(password)) return showAlert("Password too weak", "Must be at least 8 characters.", "warning");
 
             console.log('Login attempt:', { email, password });
 
@@ -118,6 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    //Here is the signup
     if (signupForm) {
         signupForm.addEventListener('submit', async function (e) {
             e.preventDefault();
@@ -127,10 +129,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const phone = document.getElementById('phone').value;
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-            const service_provider = document.getElementById('service_provider').value;
-            const accountType = document.querySelector('input[name="accountType"]:checked').value;
+            // const service_provider = document.getElementById('service_provider').value;
+            const role = document.querySelector('input[name="accountType"]:checked').value;
+            // const customer = document.getElementById('customer').value;
 
-            const customer = document.getElementById('customer').value;
             if (!isValidEmail(email)) return showAlert("Invalid Email", "Please enter a valid email.", "warning");
             if (!isValidPhoneNumber(phone)) return showAlert("Invalid Phone Number", "Please enter a valid Sri Lankan number.", "warning");
             // if (!isValidPassword(password) || password !== confirmPassword) return showAlert("Passwords don't match", "Check your passwords.", "warning");
@@ -147,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return false;
             }
 
-            console.log('Signup attempt:', { firstName, lastName, email, phone, password, accountType }); // Log signup attempt
+            console.log('Signup attempt:', { firstName, lastName, email, phone, password, role }); // Log signup attempt
 
             const phoneRegex = /^[0-9]{10}$/; // Example for a 10-digit phone number
             // Regular expression to validate phone number fob2rmat
@@ -182,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         email,
                         phone,
                         password,
-                        // role: Add role here
+                        role,
                     })
                 });
 
