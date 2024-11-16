@@ -12,7 +12,7 @@ const userValidationRules = [
     body('firstName')
         .trim()
         .escape()
-        .isLength({ min: 4 })
+        .isLength({ min: 1 })
         .withMessage('First name required.'),
 
     body('lastName')
@@ -51,6 +51,10 @@ exports.register = [
     ...userValidationRules,
     async (req, res) => {
         const errors = validationResult(req);
+
+        console.log(errors)
+
+        //Checking the 
         if (!errors.isEmpty()) {
             return res.status(400).json({ success: false, errors: errors.array() });
         }
@@ -58,11 +62,13 @@ exports.register = [
         try {
             const { firstName, lastName, email, phone, password, role } = req.body;
 
+            //Checking a existing users
             const existingUser = await User.findOne({ where: { email } });
             if (existingUser) {
                 return res.status(400).json({ success: false, message: 'User already exists' });
             }
 
+            //Creating a new user in User table
             const user = await User.create({
                 firstName,
                 lastName,
@@ -72,6 +78,7 @@ exports.register = [
                 role: role || 'customer',
             });
 
+            //Creating a token
             const token = jwt.sign({ id: user.id, role: user.role }, config.jwt.secret, { expiresIn: '24h' });
 
             res.status(201).json({ success: true, token, user: { id: user.id, firstName, lastName, email, role } });

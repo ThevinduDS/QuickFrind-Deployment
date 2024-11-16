@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
         Swal.fire({ title, text, icon });
     }
 
+    //Here is the login
     if (loginForm) {
         // Check if there are saved credentials in localStorage
         const savedEmail = localStorage.getItem('savedEmail');
@@ -117,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    //Here is the signup
     if (signupForm) {
         signupForm.addEventListener('submit', async function (e) {
             e.preventDefault();
@@ -126,9 +128,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const phone = document.getElementById('phone').value;
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-            const role = document.querySelector('input[name="accountType"]:checked').value;
 
-            const customer = document.getElementById('customer').value;
+            // const service_provider = document.getElementById('service_provider').value;
+            const role = document.querySelector('input[name="accountType"]:checked').value;
+            // const customer = document.getElementById('customer').value;
+
             if (!isValidEmail(email)) return showAlert("Invalid Email", "Please enter a valid email.", "warning");
             if (!isValidPhoneNumber(phone)) return showAlert("Invalid Phone Number", "Please enter a valid Sri Lankan number.", "warning");
             // if (!isValidPassword(password) || password !== confirmPassword) return showAlert("Passwords don't match", "Check your passwords.", "warning");
