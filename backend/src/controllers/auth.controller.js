@@ -1,6 +1,7 @@
 const { body, validationResult } = require('express-validator');
 const config = require('../config/config');
 const jwt = require('jsonwebtoken');
+const passport = require('passport');// for google login
 const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
 const User = require('../models/user.model');
@@ -109,7 +110,7 @@ exports.register = [
         <!-- Body -->
         <tr>
             <td style="padding: 20px; color: #64748B; text-align: center;">
-                <p style="font-size: 16px; margin: 0;">Hi Harshana,</p>
+                <p style="font-size: 16px; margin: 0;">Hi ${firstName},</p>
                 <p style="font-size: 14px; margin: 10px 0 20px;">
                     Thank you for joining <span style="color: #1E40AF; font-weight: bold;">QuickFind.LK</span>! We're thrilled to have you on board.
                 </p>
@@ -223,3 +224,27 @@ exports.login = [
         }
     },
 ];
+
+//about google log
+// exports.googleAuth = passport.authenticate('google', { scope: ['profile', 'email'] });
+
+// exports.googleAuthCallback = (req, res) => {
+//     // Passport will attach the user and token from GoogleStrategy
+//     const { user, token } = req.user;
+
+//     // Redirect the user to the frontend home page with the token as a query parameter
+//     // const redirectUrl = `http://127.0.0.1:5500/frontend/pages/auth/index.html?token=${token}`; // Replace with your frontend home page URL
+//     // res.redirect(redirectUrl);
+
+//     // res.json({
+//     //     message: 'Google login successful!',
+//     //     user,
+//     //     token,
+//     // });
+
+    
+// };
+exports.logout = (req, res) => {
+    req.logout();
+    res.redirect('/');
+};

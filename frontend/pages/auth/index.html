@@ -16,11 +16,11 @@
       theme: {
         extend: {
           colors: {
-                        'primary': '#1e40af',
-                        'primary-light': '#3b82f6',
-                        'background': '#f0f4f8',
-                        'text-secondary': '#64748b',
-                    }
+            'primary': '#1e40af',
+            'primary-light': '#3b82f6',
+            'background': '#f0f4f8',
+            'text-secondary': '#64748b',
+          }
         }
       }
     }
@@ -59,6 +59,39 @@
 </head>
 
 <body class="bg-background font-sans">
+
+  <script>
+    // Extract token from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+
+    if (token) {
+      // Save token in local storage
+      localStorage.setItem('jwtToken', token);
+
+      // Decode the JWT manually
+      const base64Url = token.split('.')[1]; // Get the payload part of the token
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const decodedPayload = JSON.parse(atob(base64));
+
+      // Access profile picture URL from the decoded payload
+      const profilePictureUrl = decodedPayload.photoURL;
+
+      if (profilePictureUrl) {
+        const profileImage = document.querySelector('#profile-picture');
+        profileImage.src = profilePictureUrl; // Set the profile picture URL
+      }
+
+      // Optionally, remove the token from the URL
+      history.replaceState({}, document.title, 'http://127.0.0.1:5500/frontend/pages/auth/index.html');
+
+
+    } else {
+      console.warn('Token not found in URL.');
+    }
+
+  </script>
+
   <header class="bg-primary text-white p-4 animate-fadeIn">
     <div class="container mx-auto flex justify-between items-center">
       <!-- Logo -->
@@ -74,7 +107,8 @@
           <!-- Placeholder for Display Picture -->
           <span>Profile</span>
 
-          <img src="path/to/profile-picture.jpg" alt="Profile Picture" class="w-8 h-8 rounded-full border">
+          <img  id="profile-picture" src=""
+            alt="Profile Picture" class="w-8 h-8 rounded-full border">
         </a>
       </nav>
     </div>
@@ -108,9 +142,11 @@
         </div>
       </div>
     </section>
-    <div id="search-results" class="absolute hidden left-0 right-0 mx-auto mt-2 w-full bg-white rounded-lg shadow-lg animate-fadeIn z-50">
+    <div id="search-results"
+      class="absolute hidden left-0 right-0 mx-auto mt-2 w-full bg-white rounded-lg shadow-lg animate-fadeIn z-50">
       <!-- Individual Result Template -->
-      <div class="p-4 hover:bg-background transition duration-300 cursor-pointer border-b border-gray-200 last:border-0">
+      <div
+        class="p-4 hover:bg-background transition duration-300 cursor-pointer border-b border-gray-200 last:border-0">
         <!-- Results will be dynamically inserted here -->
       </div>
     </div>
@@ -137,7 +173,7 @@
       </div>
     </section>
 
-    <button href="./viewProfile.html" ></button>
+    <button href="./viewProfile.html"></button>
 
 
 

@@ -1,23 +1,32 @@
-// backend/src/index.js
 require('dotenv').config({ path: './src/.env' });
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const path = require('path');
 const morgan = require('morgan');
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/auth.routes');
 require('./models/associations');
+
+const passport = require('passport');
+require('./config/passport')(passport); // Load Passport configuration
 
 const app = express();
 
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+    origin: 'http://127.0.0.1:5500', // Frontend origin
+    credentials: true,
+}));
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
+
+// Initialize Passport
+app.use(passport.initialize());
 
 // Routes
 app.use('/api/auth', authRoutes);
