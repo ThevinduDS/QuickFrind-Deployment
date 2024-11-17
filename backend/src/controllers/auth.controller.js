@@ -86,13 +86,51 @@ exports.register = [
             // Send the verification email
             const verificationLink = `http://localhost:3000/api/auth/verify-email?token=${verificationToken}`;
             const mailOptions = {
-                from:  config.email.from,
+                from: config.email.from,
                 to: user.email,
                 subject: 'Verify Your Email Address',
                 html: `
-                    <h1>Hi ${firstName},</h1>
-                    <p>Thank you for registering in QuickFind.LK! Please verify your email address by clicking the link below:</p>
-                    <a href="${verificationLink}">Verify Email</a>
+                <!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #F0F4F8; margin: 0; padding: 0;">
+    <table style="width: 100%; max-width: 600px; margin: 20px auto; background-color: #FFFFFF; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden;">
+        <!-- Header -->
+        <tr>
+                    <div style="text-align: center; padding: 10px 0;">
+            <h1 style="font-size: 2.25rem; font-weight: bold; color: #1e40af;">QuickFind.LK</h1>
+        </div>
+        </tr>
+        <!-- Body -->
+        <tr>
+            <td style="padding: 20px; color: #64748B; text-align: center;">
+                <p style="font-size: 16px; margin: 0;">Hi Harshana,</p>
+                <p style="font-size: 14px; margin: 10px 0 20px;">
+                    Thank you for joining <span style="color: #1E40AF; font-weight: bold;">QuickFind.LK</span>! We're thrilled to have you on board.
+                </p>
+                <p style="font-size: 14px; margin: 10px 0;">
+                    Please verify your email address to activate your account and start exploring our services.
+                </p>
+                <a href="${verificationLink}" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: #1E40AF; color: #FFFFFF; text-decoration: none; font-weight: bold; border-radius: 5px;">Verify Email Address</a>
+            </td>
+        </tr>
+        <!-- Footer -->
+        <tr>
+            <td style="padding: 20px; text-align: center; font-size: 12px; color: #64748B;">
+                <p>If you didn’t create an account, no further action is required.</p>
+                <p>Need help? <a href="https://quickfind.lk/support" style="color: #1E40AF; text-decoration: underline;">Contact our support team</a>.</p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+
+
                 `,
             };
 
