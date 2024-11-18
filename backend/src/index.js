@@ -1,5 +1,5 @@
-// backend/src/index.js
 require('dotenv').config({ path: './src/.env' });
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -7,22 +7,41 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/auth.routes');
+const pageRoutes = require('./routes/page.routes');
 require('./models/associations');
+const crypto = require('crypto');
 
 const app = express();
 
-// Middleware
+app.use((req, res, next) => {
+    const nonce = crypto.randomBytes(16).toString('base64');
+    res.locals.nonce = nonce;
+    next();
+});
+
+helmet.contentSecurityPolicy({
+    directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'nonce-<%= nonce %>'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        fontSrc: ["'self'"],
+    },
+})
+
+
+app.use(express.static(path.join(__dirname, '../../frontend')));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
 
-// Routes
+
+app.use('/', pageRoutes);
 app.use('/api/auth', authRoutes);
 
-// Error handling middleware
+
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({ error: 'Something went wrong!' });

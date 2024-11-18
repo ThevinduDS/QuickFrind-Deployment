@@ -109,7 +109,7 @@ exports.register = [
         <!-- Body -->
         <tr>
             <td style="padding: 20px; color: #64748B; text-align: center;">
-                <p style="font-size: 16px; margin: 0;">Hi Harshana,</p>
+                <p style="font-size: 16px; margin: 0;">Hi ${firstName},</p>
                 <p style="font-size: 14px; margin: 10px 0 20px;">
                     Thank you for joining <span style="color: #1E40AF; font-weight: bold;">QuickFind.LK</span>! We're thrilled to have you on board.
                 </p>
