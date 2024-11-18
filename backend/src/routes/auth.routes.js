@@ -1,9 +1,9 @@
+// backend/src/routes/auth.routes.js
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/auth.controller');
 const passport = require('passport');
 
-// Local Authentication Routes
 router.post('/register', authController.register);
 router.post('/login', authController.login);
 router.get('/verify-email', authController.verifyEmail);
@@ -18,7 +18,7 @@ router.get('/auth/google/callback',
     passport.authenticate('google', { session: false }),
     (req, res) => {
         const { token } = req.user;
-        const redirectUrl = `http://127.0.0.1:5500/frontend/pages/auth/index.html?token=${token}`;
+        const redirectUrl = `/home?token=${token}`;
         res.redirect(redirectUrl);
     }
 );

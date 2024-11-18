@@ -96,9 +96,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     }).then(() => {
 
                         if (data.user.role == "customer") {
-                            window.location.href = '../index.html';
+                            window.location.href = '/home';
                         } else if (data.user.role == "service_provider") {
-                            window.location.href = '../provider-dashboard.html';
+                            window.location.href = '/provider-dashboard';
                         }
                     });
                 } else {
@@ -198,8 +198,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         text: "Please log in.",
                         icon: "success"
                     }).then(() => {
-                        // Redirect to login page after clicking "OK"
-                        window.location.href = 'login.html';
+                        window.location.href = '/loginpage';
                     });
                 } else {
                     Swal.fire({
