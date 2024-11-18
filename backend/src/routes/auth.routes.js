@@ -11,12 +11,4 @@
 
 
 
-
-
-
-// Serve provider-dashboard.html for service providers
-router.get('/provider-dashboard', (req, res) => {
-   res.sendFile(path.join(__dirname, '../frontend/provider-dashboard.html'));
-});
-
    module.exports = router;

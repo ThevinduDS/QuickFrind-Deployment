@@ -13,6 +13,9 @@ router.get('/loginpage', (req, res) => {
     res.sendFile(path.join(__dirname, '../../../frontend/pages/auth/login.html'));
 });
 
-
+// Serve provider-dashboard.html 
+router.get('/provider-dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../../frontend/pages/provider-dashboard.html'));
+ });
 
 module.exports = router;
