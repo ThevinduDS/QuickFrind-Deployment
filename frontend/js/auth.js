@@ -218,3 +218,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 });
+
+function gotoSignup(){
+    window.location.href = '/signuppage';
+}

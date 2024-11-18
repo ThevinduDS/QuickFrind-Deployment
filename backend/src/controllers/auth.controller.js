@@ -169,18 +169,20 @@ exports.verifyEmail = async (req, res) => {
         }
 
         if (user.emailVerified) {
-            return res.status(200).json({ success: true, message: 'Email already verified' });
+            return res.status(200).redirect('/loginpage');
         }
 
         user.emailVerified = true;
         await user.save();
 
-        res.status(200).json({ success: true, message: 'Email verified successfully!' });
+        // Redirect to login page after successful verification
+        res.status(200).redirect('/loginpage');
     } catch (error) {
         console.error('Verification error:', error);
         res.status(400).json({ success: false, message: 'Invalid or expired token' });
     }
 };
+
 
 // Login
 exports.login = [
