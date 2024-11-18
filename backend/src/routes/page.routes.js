@@ -16,7 +16,10 @@ router.get('/loginpage', (req, res) => {
 // Serve provider-dashboard.html 
 router.get('/provider-dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, '../../../frontend/pages/provider-dashboard.html'));
- });
+});
 
+router.get('/signuppage', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../../frontend/pages/auth/signup.html'));
+});
 
 module.exports = router;
