@@ -69,15 +69,17 @@
         profileImage.src = profilePictureUrl; // Set the profile picture URL
       }
 
-      // Optionally, remove the token from the URL
-      history.replaceState({}, document.title, 'http://127.0.0.1:5500/frontend/pages/auth/index.html');
-
+      // Remove the token from the URL without reloading the page
+      const currentUrl = window.location.href;
+      const urlWithoutToken = currentUrl.split('?')[0]; // Get the base URL without query parameters
+      history.replaceState({}, document.title, urlWithoutToken);
 
     } else {
       console.warn('Token not found in URL.');
     }
 
   </script>
+
 
   <header class="bg-primary text-white p-4 animate-fadeIn">
     <div class="container mx-auto flex justify-between items-center">
@@ -94,8 +96,7 @@
           <!-- Placeholder for Display Picture -->
           <span>Profile</span>
 
-          <img  id="profile-picture" src=""
-            alt="Profile Picture" class="w-8 h-8 rounded-full border">
+          <img id="profile-picture" src="" alt="Profile Picture" class="w-8 h-8 rounded-full border">
         </a>
       </nav>
     </div>
