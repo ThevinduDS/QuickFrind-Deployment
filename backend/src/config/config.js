@@ -17,9 +17,9 @@ const config = {
     },
     email: {
         service: process.env.EMAIL_SERVICE || 'gmail', // Default to Gmail if not set
-        user: process.env.EMAIL_USER || 'your-email@example.com',
+        user: process.env.EMAIL_USER || 'pathumrandika412@gmail.com',
         pass: process.env.EMAIL_PASSWORD || 'your-email-password',
-        from: process.env.EMAIL_FROM || 'no-reply@example.com', // Default sender address
+        from: process.env.EMAIL_FROM || 'pathumrandika412@gmail.com', // Default sender address
     },
 };
 
