@@ -88,31 +88,75 @@ function hideAddServiceModal() {
 }
 
 // Add New Service Handler
-document.getElementById('addServiceForm').addEventListener('submit', (e) => {
-    e.preventDefault();
+document.getElementById('addServiceForm').addEventListener('submit', async (e) => {
+    e.preventDefault(); // Prevent default form submission
 
-    // Simulate form data submission
-    const formData = new FormData(e.target);
-    const serviceData = {};
-    formData.forEach((value, key) => {
-        if (key === 'availableDays') {
-            serviceData[key] = serviceData[key] || [];
-            serviceData[key].push(value);
+    const formData = new FormData();
+
+    // Collect available days
+    const availableDays = Array.from(
+        document.querySelectorAll('input[name="availableDays"]:checked')
+    ).map((checkbox) => checkbox.value);
+    formData.append('availableDays', JSON.stringify(availableDays));
+
+    // Collect service images
+    const serviceImages = document.getElementById('serviceImages').files;
+    Array.from(serviceImages).forEach((file) => {
+        formData.append('serviceImages', file);
+    });
+
+    // Collect other form data
+    formData.append('title', document.getElementById('serviceTitle').value);
+    formData.append('description', document.getElementById('serviceDescription').value);
+    formData.append('categoryId', document.getElementById('serviceCategory').value);
+    formData.append('serviceArea', document.getElementById('serviceArea').value);
+    formData.append('location', document.getElementById('serviceLocation').value);
+    formData.append('price', document.getElementById('servicePrice').value);
+    formData.append('priceType', document.getElementById('servicePriceType').value);
+    formData.append('workingHoursStart', document.getElementById('workingHoursStart').value);
+    formData.append('workingHoursEnd', document.getElementById('workingHoursEnd').value);
+
+    try {
+        const response = await fetch('http://localhost:3000/api/service/add', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: formData,
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            Swal.fire({
+                icon: 'success',
+                title: 'Service Added',
+                text: result.message,
+            });
+
+            // Hide the modal and reset the form
+            hideAddServiceModal();
+            e.target.reset();
+
+            // Add a delay before reloading the page
+            setTimeout(() => {
+                console.log('Reloading after delay...');
+                window.location.reload(); // Reload the page after 2 seconds
+            }, 2000);
         } else {
-            serviceData[key] = value;
+            const error = await response.json();
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || 'Failed to add service',
+            });
         }
-    });
-
-    console.log('New Service Data:', serviceData);
-
-    // Reset form
-    e.target.reset();
-    hideAddServiceModal();
-
-    // Show success message
-    Swal.fire({
-        icon: 'success',
-        title: 'Service Added',
-        text: 'Your new service has been added successfully!',
-    });
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Failed to communicate with the server',
+        });
+        console.error('Error:', error);
+    }
 });
+

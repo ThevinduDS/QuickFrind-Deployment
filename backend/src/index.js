@@ -8,9 +8,11 @@ const morgan = require('morgan');
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/auth.routes');
 const pageRoutes = require('./routes/page.routes');
+const serviceAdd = require('./routes/service.routes');
 require('./models/associations'); // Sequelize associations
 const crypto = require('crypto');
 const passport = require('passport');
+const allowedOrigins = ['http://localhost:3000', 'http://127.0.0.1:5500'];
 
 require('./config/passport')(passport); // Load Passport configuration
 
@@ -50,7 +52,16 @@ app.use(express.static(path.join(__dirname, '../../frontend')));
 // Middleware configurations
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true); // Allow the request
+        } else {
+            callback(new Error('Not allowed by CORS')); // Reject the request
+        }
+    },
+    credentials: true // Allow sending cookies or auth headers
+}));
 app.use(morgan('dev'));
 app.use(express.json());
 
@@ -60,6 +71,7 @@ app.use(passport.initialize());
 // Routes
 app.use('/', pageRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/service/', serviceAdd)
 
 // Error handling middleware
 app.use((err, req, res, next) => {

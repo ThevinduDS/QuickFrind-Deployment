@@ -27,7 +27,7 @@ const userValidationRules = [
         .normalizeEmail()
         .withMessage('Must be a valid email.'),
     body('phone')
-        .matches(/^(0?77|0?76|0?74|0?71|0?72|0?75)\d{6,7}$/)
+        .matches(/^(0?77|0?76|0?74|0?71|0?72|0?78|0?75)\d{6,7}$/)
         .withMessage('Invalid Sri Lankan phone number.'),
     body('password')
         .isLength({ min: 8 })

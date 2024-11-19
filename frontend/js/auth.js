@@ -1,4 +1,9 @@
 // frontend/src/js/auth.js
+function gotoSignup(){
+    alert("test");
+    window.location.href = "/signuppage";
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     // const forgotPasswordLink = document.querySelector('a[href="forgotPassword.html"]'); // Forgot Password Link
     const loginForm = document.getElementById('loginForm');
@@ -100,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         if (data.user.role == "customer") {
                             window.location.href = '/home';
                         } else if (data.user.role == "service_provider") {
-                            window.location.href = '/provider-dashboard';
+                            window.location.href = '../../pages/provider-dashboard.html';
                         }
                     });
                 } else {
