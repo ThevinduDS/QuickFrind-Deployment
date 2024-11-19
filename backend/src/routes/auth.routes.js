@@ -2,11 +2,12 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/auth.controller');
-const passport = require('passport');
 
 router.post('/register', authController.register);
 router.post('/login', authController.login);
 router.get('/verify-email', authController.verifyEmail);
+router.post('/request-password-reset', authController.requestPasswordReset);
+router.post('/reset-password', authController.resetPassword);
 
 // Google OAuth Routes
 router.get('/auth/google', passport.authenticate('google', {
@@ -26,4 +27,6 @@ router.get('/auth/google/callback',
 
 router.get('/logout', authController.logout);
 
+
 module.exports = router;
+

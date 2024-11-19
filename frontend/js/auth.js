@@ -1,7 +1,9 @@
 // frontend/src/js/auth.js
 document.addEventListener('DOMContentLoaded', function () {
+    // const forgotPasswordLink = document.querySelector('a[href="forgotPassword.html"]'); // Forgot Password Link
     const loginForm = document.getElementById('loginForm');
     const signupForm = document.getElementById('signupForm');
+    const forgetPasswordLink = document.getElementById('forgetPassword');  // Get the "Forgot password?" link+
 
     function isValidEmail(email) {
         return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
@@ -218,7 +220,3 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 });
-
-function gotoSignup(){
-    window.location.href = '/signuppage';
-}
