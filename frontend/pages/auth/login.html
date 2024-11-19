@@ -18,7 +18,7 @@
                     }
                 }
             }
-        }
+        };
     </script>
 </head>
 <body class="bg-background font-sans">
@@ -61,7 +61,7 @@
                         <input type="checkbox" id="remember" class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
                         <label for="remember" class="ml-2 block text-sm text-gray-700">Remember me</label>
                     </div>
-                    <a href="#" class="text-sm text-primary hover:text-primary-light">Forgot password?</a>
+                    <a href="#" id="forgetPassword" class="text-sm text-primary hover:text-primary-light">Forgot password?</a>
                 </div>
 
                 <button type="submit" 
@@ -71,27 +71,29 @@
                 </button>
             </form>
 
-            <!-- Divider -->
-            <div class="mt-6 relative">
-                <div class="absolute inset-0 flex items-center">
-                    <div class="w-full border-t border-gray-300"></div>
-                </div>
-                <div class="relative flex justify-center text-sm">
-                    <span class="px-2 bg-white text-gray-500">Or continue with</span>
-                </div>
-            </div>
-
-            <!-- Social Login -->
-            <div class="mt-6 grid grid-cols-2 gap-3">
-                <button class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                    <i class="fab fa-google text-red-500 mr-2"></i>
-                    Google
-                </button>
-                <button class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                    <i class="fab fa-facebook text-blue-600 mr-2"></i>
-                    Facebook
-                </button>
-            </div>
+         
+<!-- Forgot Password Form -->
+<form id="forgotPasswordForm" class="space-y-6 mt-6 hidden">
+    <h2 class="text-center text-primary text-2xl font-bold">Forgot Password</h2>
+    <div>
+        <label for="forgotEmail" class="block text-sm font-medium text-gray-700 mb-2">Enter Your Email</label>
+        <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                <i class="fas fa-envelope"></i>
+            </span>
+            <input type="email" id="forgotEmail" name="forgotEmail" required 
+                   class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                   placeholder="Enter your email">
+        </div>
+    </div>
+    <button type="submit" 
+            class="w-full bg-primary text-white py-3 rounded-md hover:bg-primary-light transition duration-300">
+        Request Reset Link
+    </button>
+    <a href="#" id="backToLogin" class="text-sm text-primary hover:text-primary-light block text-center mt-2">
+        Back to Login
+    </a>
+</form>
 
             <!-- Sign Up Link -->
             <div class="mt-6 text-center">
@@ -103,7 +105,8 @@
         </div>
     </div>
 
-    <script src="../../js/auth.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../../js/auth.js">
+       
+    </script>
 </body>
 </html>

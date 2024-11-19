@@ -2,7 +2,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-
 const User = sequelize.define('User', {
     id: {
         type: DataTypes.UUID,
@@ -47,6 +46,15 @@ const User = sequelize.define('User', {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
     },
+    // // New fields for password reset
+    // resetToken: {
+    //     type: DataTypes.STRING,
+    //     allowNull: true
+    // },
+    // tokenExpiry: {
+    //     type: DataTypes.DATE,
+    //     allowNull: true
+    // },
 }, {
     timestamps: true
 });
