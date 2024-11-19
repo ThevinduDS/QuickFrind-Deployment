@@ -22,4 +22,8 @@ router.get('/signuppage', (req, res) => {
     res.sendFile(path.join(__dirname, '../../../frontend/pages/auth/signup.html'));
 });
 
+router.get('/reset-passwordpage', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../../frontend/pages/auth/reset-password.html'));
+ });
+
 module.exports = router;

@@ -71,6 +71,28 @@
                     <i class="fas fa-arrow-right ml-2"></i>
                 </button>
             </form>
+            <!-- Forgot Password Form -->
+<form id="forgotPasswordForm" class="space-y-6 mt-6 hidden">
+    <h2 class="text-center text-primary text-2xl font-bold">Forgot Password</h2>
+    <div>
+        <label for="forgotEmail" class="block text-sm font-medium text-gray-700 mb-2">Enter Your Email</label>
+        <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">
+                <i class="fas fa-envelope"></i>
+            </span>
+            <input type="email" id="forgotEmail" name="forgotEmail" required 
+                   class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                   placeholder="Enter your email">
+        </div>
+    </div>
+    <button type="submit" 
+            class="w-full bg-primary text-white py-3 rounded-md hover:bg-primary-light transition duration-300">
+        Request Reset Link
+    </button>
+    <a href="#" id="backToLogin" class="text-sm text-primary hover:text-primary-light block text-center mt-2">
+        Back to Login
+    </a>
+</form>
 
             <!-- Divider -->
             <div class="mt-6 relative">
