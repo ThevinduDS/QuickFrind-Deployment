@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuickFind.LK - Find Trusted Service Providers Near You</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/global.css">
+
+  <link rel="icon" type="png" href="../icons/quickfind logo .png">
+
+  <script src="../../js/tailwind-config.js"></script>
+  <style>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .animate-fadeIn {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .animate-slideIn {
+      animation: slideIn 0.5s ease-out;
+    }
+  </style>
+</head>
+
+<body class="bg-background font-sans">
+
+  <script>
+    // Extract token from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+
+    if (token) {
+      // Save token in local storage
+      localStorage.setItem('jwtToken', token);
+
+      // Decode the JWT manually
+      const base64Url = token.split('.')[1]; // Get the payload part of the token
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const decodedPayload = JSON.parse(atob(base64));
+
+      // Access profile picture URL from the decoded payload
+      const profilePictureUrl = decodedPayload.photoURL;
+
+      if (profilePictureUrl) {
+        const profileImage = document.querySelector('#profile-picture');
+        profileImage.src = profilePictureUrl; // Set the profile picture URL
+      }
+
+      // Optionally, remove the token from the URL
+      history.replaceState({}, document.title, 'http://127.0.0.1:5500/frontend/pages/auth/index.html');
+
+
+    } else {
+      console.warn('Token not found in URL.');
+    }
+
+  </script>
+
+  <header class="bg-primary text-white p-4 animate-fadeIn">
+    <div class="container mx-auto flex justify-between items-center">
+      <!-- Logo -->
+      <img src="../icons/quickfind logo .png" style="height:50px;" alt="logo">
+
+      <!-- Navigation Items (Inline) -->
+      <nav class="flex items-center space-x-6">
+        <a href="#" class="hover:text-primary-light transition duration-300">How It Works</a>
+        <a href="#" class="hover:text-primary-light transition duration-300">For Providers</a>
+
+        <!-- Profile Button with Rounded Display Picture -->
+        <a href="userProfile.html" class="flex items-center space-x-2 hover:text-primary-light transition duration-300">
+          <!-- Placeholder for Display Picture -->
+          <span>Profile</span>
+
+          <img  id="profile-picture" src=""
+            alt="Profile Picture" class="w-8 h-8 rounded-full border">
+        </a>
+      </nav>
+    </div>
+  </header>
+
+
+
+  <main class="container mx-auto mt-8 px-4">
+
+    <!-- Search and banner -->
+    <section class="bg-white rounded-lg p-8 mb-12 text-center shadow-lg animate-slideIn">
+      <h2 class="text-4xl font-bold text-primary mb-6">Find Trusted Service Providers Near You</h2>
+      professionals in your area.</p>
+      <p class="textt-text-secondary mb-8">From home repairs to personal services, discover top-rated
+
+        <!-- Search Input and Results Container -->
+      <div class="relative max-w-2xl mx-auto">
+        <!-- Search Input -->
+        <input type="text" id="search-input" placeholder="What service do you need?"
+          class="w-full p-4 pr-12 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary bg-background text-text-secondary transition duration-300">
+
+        <!-- Search Button -->
+        <button
+          class="absolute right-4 top-1/2  transform -translate-y-1/2 text-primary hover:text-primary-light transition duration-300">
+          <span class="material-icons">search</span>
+        </button>
+
+        <!-- Search Results Container (Directly Below Search Input) -->
+        <div
+          class="w-full p-4 hover:bg-background transition duration-300 cursor-pointer rounded-lg border-b border-gray-200 last:border-0">
+        </div>
+      </div>
+    </section>
+    <div id="search-results"
+      class="absolute hidden left-0 right-0 mx-auto mt-2 w-full bg-white rounded-lg shadow-lg animate-fadeIn z-50">
+      <!-- Individual Result Template -->
+      <div
+        class="p-4 hover:bg-background transition duration-300 cursor-pointer border-b border-gray-200 last:border-0">
+        <!-- Results will be dynamically inserted here -->
+      </div>
+    </div>
+
+
+
+    <!-- Popular Categories -->
+    <section id="popular-categories" class="mb-12 animate-slideIn" style="animation-delay: 0.2s;">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-2xl font-bold text-primary">Popular Categories</h3>
+        <a href="#" id="view-all-categories" class="text-primary hover:text-primary-light transition duration-300">View
+          All Categories</a>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+
+      </div>
+    </section>
+
+    <!-- Featured Providers Section -->
+    <section id="featured-providers" class="animate-slideIn mb-12" style="animation-delay: 0.4s;">
+      <h3 class="text-2xl font-bold mb-6 text-primary">Featured Providers</h3>
+      <div id="providers-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Provider cards will be dynamically inserted here by JavaScript -->
+      </div>
+    </section>
+
+    <button href="./viewProfile.html"></button>
+
+
+
+    <!-- Why Choose QuickFind.LK? -->
+    <section id="WhyChoose" class="bg-white rounded-lg p-8 mb-12 text-center shadow-lg animate-slideIn"
+      style="animation-delay: 0.6s;">
+      <h3 class="text-2xl font-bold text-primary mb-4">Why Choose QuickFind.LK?</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <div>
+          <span class="material-icons text-5xl text-primary-light mb-4">verified</span>
+          <h4 class="font-bold text-lg mb-2">Verified Providers</h4>
+          <p class="text-text-secondary">All our service providers undergo a thorough verification process.</p>
+        </div>
+        <div>
+          <span class="material-icons text-5xl text-primary-light mb-4">star_rate</span>
+          <h4 class="font-bold text-lg mb-2">Top Rated Professionals</h4>
+          <p class="text-text-secondary">Choose from top-rated professionals with real customer reviews.</p>
+        </div>
+        <div>
+          <span class="material-icons text-5xl text-primary-light mb-4">support_agent</span>
+          <h4 class="font-bold text-lg mb-2">24/7 Customer Support</h4>
+          <p class="text-text-secondary">We are here to assist you anytime, ensuring a seamless experience.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- footer -->
+  <footer class="bg-primary text-white py-4 text-center animate-fadeIn">
+    <p>&copy; 2024 QuickFind.LK. All rights reserved.</p>
+  </footer>
+
+
+  <script src="../js/search.js"></script>
+  <script src="../js/category.js"></script>
+  <script src="../js/homePage.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</body>
+
+</html>

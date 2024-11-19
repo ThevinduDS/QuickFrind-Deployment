@@ -1,6 +1,7 @@
 const { body, validationResult } = require('express-validator');
 const config = require('../config/config');
 const jwt = require('jsonwebtoken');
+const passport = require('passport');// for google login
 const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
@@ -82,7 +83,7 @@ exports.register = [
                 subject: 'Verify Your Email Address',
                 html: `
                     <h1>Hi ${firstName},</h1>
-                    <p>Thank you for registering at QuickFind.LK! Click the link below to verify your email:</p>
+                    <p>Thank you for registering in QuickFind.LK! Please verify your email address by clicking the link below:</p>
                     <a href="${verificationLink}">Verify Email</a>
                 `,
             };
@@ -115,16 +116,18 @@ exports.verifyEmail = async (req, res) => {
             return res.status(404).json({ success: false, message: 'User not found.' });
         }
         if (user.emailVerified) {
-            return res.status(200).json({ success: true, message: 'Email already verified.' });
+            return res.status(200).json({ success: true, message: 'Email already verified' });
         }
         user.emailVerified = true;
         await user.save();
+
         res.status(200).json({ success: true, message: 'Email verified successfully!' });
     } catch (error) {
         console.error('Verification error:', error);
         res.status(400).json({ success: false, message: 'Invalid or expired token.' });
     }
 };
+
 
 // User Login
 exports.login = [
@@ -216,4 +219,28 @@ exports.resetPassword = async (req, res) => {
         console.error('Error:', error);
         res.status(500).json({ message: 'An error occurred. Please try again.' });
     }
+};
+
+//about google log
+// exports.googleAuth = passport.authenticate('google', { scope: ['profile', 'email'] });
+
+// exports.googleAuthCallback = (req, res) => {
+//     // Passport will attach the user and token from GoogleStrategy
+//     const { user, token } = req.user;
+
+//     // Redirect the user to the frontend home page with the token as a query parameter
+//     // const redirectUrl = `http://127.0.0.1:5500/frontend/pages/auth/index.html?token=${token}`; // Replace with your frontend home page URL
+//     // res.redirect(redirectUrl);
+
+//     // res.json({
+//     //     message: 'Google login successful!',
+//     //     user,
+//     //     token,
+//     // });
+
+    
+// };
+exports.logout = (req, res) => {
+    req.logout();
+    res.redirect('/');
 };

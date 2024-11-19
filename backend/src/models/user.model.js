@@ -8,13 +8,17 @@ const User = sequelize.define('User', {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true
     },
+    googleId: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
     firstName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     lastName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     email: {
         type: DataTypes.STRING,
@@ -24,11 +28,11 @@ const User = sequelize.define('User', {
     phone: {
         type: DataTypes.STRING,
         unique: true,
-        allowNull: false
+        allowNull: true
     },
     password: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     role: {
         type: DataTypes.ENUM('admin', 'service_provider', 'customer'),

@@ -98,9 +98,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     }).then(() => {
 
                         if (data.user.role == "customer") {
-                            window.location.href = '../index.html';
+                            window.location.href = '/home';
                         } else if (data.user.role == "service_provider") {
-                            window.location.href = '../provider-dashboard.html';
+                            window.location.href = '/provider-dashboard';
                         }
                     });
                 } else {
@@ -200,8 +200,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         text: "Please log in.",
                         icon: "success"
                     }).then(() => {
-                        // Redirect to login page after clicking "OK"
-                        window.location.href = 'login.html';
+                        window.location.href = '/loginpage';
                     });
                 } else {
                     Swal.fire({
@@ -218,69 +217,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
         });
-    };
-});
+    }
 
-document.addEventListener("DOMContentLoaded", () => {
-    const loginForm = document.getElementById("loginForm");
-    const forgotPasswordForm = document.getElementById("forgotPasswordForm");
-    const forgetPasswordLink = document.getElementById("forgetPassword");
-    const backToLogin = document.getElementById("backToLogin");
-
-    const toggleVisibility = (hideForm, showForm) => {
-        hideForm.classList.add("hidden");
-        showForm.classList.remove("hidden");
-    };
-
-    // Show Forgot Password Form
-    forgetPasswordLink.addEventListener("click", (e) => {
-        e.preventDefault();
-        toggleVisibility(loginForm, forgotPasswordForm);
-    });
-
-    // Go Back to Login Form
-    backToLogin.addEventListener("click", (e) => {
-        e.preventDefault();
-        toggleVisibility(forgotPasswordForm, loginForm);
-    });
-
-    // Handle Forgot Password Form Submission
-    forgotPasswordForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const email = document.getElementById("forgotEmail").value.trim();
-
-        if (!email || !/\S+@\S+\.\S+/.test(email)) {
-            alert("Please enter a valid email address.");
-            return;
-        }
-
-        try {
-            // Disable the form and show loader (optional)
-            forgotPasswordForm.querySelector("button").disabled = true;
-
-            const response = await fetch("http://localhost:3000/api/auth/request-password-reset", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email }),
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-                alert("Password reset link has been sent to your email!");
-                forgotPasswordForm.reset();
-                toggleVisibility(forgotPasswordForm, loginForm);
-            } else {
-                alert(result.message || "Failed to send reset link. Please try again.");
-            }
-        } catch (error) {
-            console.error("Error:", error);
-            alert("An error occurred. Please try again.");
-        } finally {
-            // Re-enable the form
-            forgotPasswordForm.querySelector("button").disabled = false;
-        }
-    });
 });
