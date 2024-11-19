@@ -284,3 +284,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const signupButton = document.getElementById("goToSignup");
+    
+    signupButton.addEventListener("click", () => {
+        window.location.href = '/signuppage';
+    });
+});
