@@ -152,15 +152,12 @@ exports.verifyEmail = async (req, res) => {
             return res.status(404).json({ success: false, message: 'User not found.' });
         }
         if (user.emailVerified) {
-            return res.redirect('http://127.0.0.1:5500/frontend/pages/auth/login.html');
-            console.log("Email already verified");
-            return res.status(200).json({ success: true, message: 'Email already verified' });
+            return res.redirect('/loginpage?message=Email already verified!');
         }
+
         user.emailVerified = true;
         await user.save();
-        console.log("Email verified");
-        res.status(200).json({ success: true, message: 'Email verified successfully!' });
-        return res.redirect('http://127.0.0.1:5500/frontend/pages/auth/login.html');
+        return res.redirect('/loginpage?message=Email verified successfully!');
         
     } catch (error) {
         console.error('Verification error:', error);

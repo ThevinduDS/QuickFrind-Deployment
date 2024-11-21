@@ -5,29 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuickFind.LK - Provider Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../js/tailwind-config.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'primary': '#1e40af',
-                        'primary-light': '#3b82f6',
-                        'background': '#f0f4f8',
-                        'text-secondary': '#64748b',
-                    }
-                }
-            }
-        }
-    </script>
+
 </head>
 <body class="bg-gray-100">
     <!-- Authentication Check -->
-    <script>
-        // if (!localStorage.getItem('token')) {
-        //     window.location.href = 'login.html';
-        // }
-    </script>
+   
 
     <!-- Dashboard Layout -->
     <div class="min-h-screen flex">
@@ -148,7 +132,7 @@
                             <h3 class="text-xl font-bold">My Services</h3>
                             <p class="text-gray-500">Manage your service listings</p>
                         </div>
-                        <button onclick="showAddServiceModal()" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-light transition-colors">
+                        <button id="addServiceButton" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-light transition-colors">
                             <i class="fas fa-plus mr-2"></i>Add New Service
                         </button>
                     </div>
@@ -212,7 +196,7 @@
         <div class="bg-white rounded-lg p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-bold">Add New Service</h3>
-                <button onclick="hideAddServiceModal()" class="text-gray-500 hover:text-gray-700">
+                <button id="closebtn" class="text-gray-500 hover:text-gray-700">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -237,15 +221,9 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
                         <select id="serviceCategory" required class="w-full p-3 border rounded-lg">
-                            <option value="">Select Category</option>
-                            <option value="1">Plumbing</option>
-                            <option value="2">Electrical</option>
-                            <option value="3">Carpentry</option>
-                            <option value="4">Cleaning</option>
-                            <option value="5">Painting</option>
+                          <option value="">Select Category</option>
                         </select>
-                    </div>
-                    
+                      </div>                      
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Service Area (km)</label>
                         <input type="number" id="serviceArea" required class="w-full p-3 border rounded-lg">
@@ -323,7 +301,7 @@
                 </div>
 
                 <div class="flex justify-end space-x-3 mt-6">
-                    <button type="button" onclick="hideAddServiceModal()" 
+                    <button type="button" id="cancel" 
                             class="px-4 py-2 border rounded-lg hover:bg-gray-100">
                         Cancel
                     </button>

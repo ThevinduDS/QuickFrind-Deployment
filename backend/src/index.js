@@ -9,6 +9,7 @@ const sequelize = require('./config/database');
 const authRoutes = require('./routes/auth.routes');
 const pageRoutes = require('./routes/page.routes');
 const serviceAdd = require('./routes/service.routes');
+const categoryRoutes = require('./routes/categories.routes');
 require('./models/associations'); // Sequelize associations
 const crypto = require('crypto');
 const passport = require('passport');
@@ -72,6 +73,7 @@ app.use(passport.initialize());
 app.use('/', pageRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/service/', serviceAdd)
+app.use('/api/categories', categoryRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

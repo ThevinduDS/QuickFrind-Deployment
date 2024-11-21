@@ -8,15 +8,14 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="../styles/global.css">
-  <link rel="icon" type="png" href="../icons/quickfind logo .png">
+  <link rel="icon" type="image/png" href="../icons/quickfind logo.png">
   <script src="../../js/tailwind-config.js"></script>
 
-<style>
+  <style>
     @keyframes fadeIn {
       from {
         opacity: 0;
       }
-
       to {
         opacity: 1;
       }
@@ -31,7 +30,6 @@
         transform: translateY(20px);
         opacity: 0;
       }
-
       to {
         transform: translateY(0);
         opacity: 1;
@@ -46,125 +44,71 @@
 
 <body class="bg-background font-sans">
 
-  <script>
-    // Extract token from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
-
-    if (token) {
-      // Save token in local storage
-      localStorage.setItem('jwtToken', token);
-
-      // Decode the JWT manually
-      const base64Url = token.split('.')[1]; // Get the payload part of the token
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const decodedPayload = JSON.parse(atob(base64));
-
-      // Access profile picture URL from the decoded payload
-      const profilePictureUrl = decodedPayload.photoURL;
-
-      if (profilePictureUrl) {
-        const profileImage = document.querySelector('#profile-picture');
-        profileImage.src = profilePictureUrl; // Set the profile picture URL
-      }
-
-      // Remove the token from the URL without reloading the page
-      const currentUrl = window.location.href;
-      const urlWithoutToken = currentUrl.split('?')[0]; // Get the base URL without query parameters
-      history.replaceState({}, document.title, urlWithoutToken);
-
-    } else {
-      console.warn('Token not found in URL.');
-    }
-
-  </script>
-
-
   <header class="bg-primary text-white p-4 animate-fadeIn">
     <div class="container mx-auto flex justify-between items-center">
-      <!-- Logo -->
-      <img src="../icons/quickfind logo .png" style="height:50px;" alt="logo">
-
-      <!-- Navigation Items (Inline) -->
+      <img src="../icons/quickfind logo.png" style="height:50px;" alt="QuickFind.LK Logo">
       <nav class="flex items-center space-x-6">
         <a href="#" class="hover:text-primary-light transition duration-300">How It Works</a>
         <a href="#" class="hover:text-primary-light transition duration-300">For Providers</a>
-
-        <!-- Profile Button with Rounded Display Picture -->
         <a href="userProfile.html" class="flex items-center space-x-2 hover:text-primary-light transition duration-300">
-          <!-- Placeholder for Display Picture -->
           <span>Profile</span>
-
-          <img id="profile-picture" src="" alt="Profile Picture" class="w-8 h-8 rounded-full border">
+          <img src="../icons/default-profile.png" alt="Profile Picture" class="w-8 h-8 rounded-full border">
         </a>
       </nav>
     </div>
   </header>
 
-
-
   <main class="container mx-auto mt-8 px-4">
-
-    <!-- Search and banner -->
+    <!-- Search and Banner -->
     <section class="bg-white rounded-lg p-8 mb-12 text-center shadow-lg animate-slideIn">
       <h2 class="text-4xl font-bold text-primary mb-6">Find Trusted Service Providers Near You</h2>
-      professionals in your area.</p>
-      <p class="textt-text-secondary mb-8">From home repairs to personal services, discover top-rated
-
-        <!-- Search Input and Results Container -->
+      <p class="text-text-secondary mb-8">From home repairs to personal services, discover top-rated professionals in your area.</p>
       <div class="relative max-w-2xl mx-auto">
-        <!-- Search Input -->
-        <input type="text" id="search-input" placeholder="What service do you need?"
+        <input type="text" placeholder="What service do you need?"
           class="w-full p-4 pr-12 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary bg-background text-text-secondary transition duration-300">
-
-        <!-- Search Button -->
         <button
-          class="absolute right-4 top-1/2  transform -translate-y-1/2 text-primary hover:text-primary-light transition duration-300">
+          class="absolute right-4 top-1/2 transform -translate-y-1/2 text-primary hover:text-primary-light transition duration-300">
           <span class="material-icons">search</span>
         </button>
-
-        <!-- Search Results Container (Directly Below Search Input) -->
-        <div
-          class="w-full p-4 hover:bg-background transition duration-300 cursor-pointer rounded-lg border-b border-gray-200 last:border-0">
-        </div>
       </div>
     </section>
-    <div id="search-results"
-      class="absolute hidden left-0 right-0 mx-auto mt-2 w-full bg-white rounded-lg shadow-lg animate-fadeIn z-50">
-      <!-- Individual Result Template -->
-      <div
-        class="p-4 hover:bg-background transition duration-300 cursor-pointer border-b border-gray-200 last:border-0">
-        <!-- Results will be dynamically inserted here -->
-      </div>
-    </div>
-
-
 
     <!-- Popular Categories -->
     <section id="popular-categories" class="mb-12 animate-slideIn" style="animation-delay: 0.2s;">
       <div class="flex justify-between items-center mb-6">
         <h3 class="text-2xl font-bold text-primary">Popular Categories</h3>
-        <a href="#" id="view-all-categories" class="text-primary hover:text-primary-light transition duration-300">View
-          All Categories</a>
+        <a href="#" class="text-primary hover:text-primary-light transition duration-300">View All Categories</a>
       </div>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-
+        <div class="bg-white p-4 rounded-lg shadow text-center">
+          <p class="font-bold text-lg text-primary">Plumbing</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow text-center">
+          <p class="font-bold text-lg text-primary">Electrical</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow text-center">
+          <p class="font-bold text-lg text-primary">Cleaning</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow text-center">
+          <p class="font-bold text-lg text-primary">Gardening</p>
+        </div>
       </div>
     </section>
 
-    <!-- Featured Providers Section -->
+    <!-- Featured Providers -->
     <section id="featured-providers" class="animate-slideIn mb-12" style="animation-delay: 0.4s;">
       <h3 class="text-2xl font-bold mb-6 text-primary">Featured Providers</h3>
-      <div id="providers-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Provider cards will be dynamically inserted here by JavaScript -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white p-4 rounded-lg shadow">
+          <h4 class="font-bold text-lg text-primary">John Doe</h4>
+          <p class="text-text-secondary">Expert Plumber with 10 years of experience.</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow">
+          <h4 class="font-bold text-lg text-primary">Jane Smith</h4>
+          <p class="text-text-secondary">Certified Electrician offering reliable services.</p>
+        </div>
       </div>
     </section>
-
-    <button href="./viewProfile.html"></button>
-
-    <a href="../provider-dashboard.html"></a>
-
-
 
     <!-- Why Choose QuickFind.LK? -->
     <section id="WhyChoose" class="bg-white rounded-lg p-8 mb-12 text-center shadow-lg animate-slideIn"
@@ -190,17 +134,9 @@
     </section>
   </main>
 
-  <!-- footer -->
   <footer class="bg-primary text-white py-4 text-center animate-fadeIn">
     <p>&copy; 2024 QuickFind.LK. All rights reserved.</p>
   </footer>
-
-
-  <script src="../js/search.js"></script>
-  <script src="../js/category.js"></script>
-  <script src="../js/homePage.js"></script>
-  <script src="../../js/home.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </body>
 

@@ -4,11 +4,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
     if (!token) {
-        window.location.href = 'login.html';
+        window.location.href = '/loginpage';
         return;
     }
 
-    // Fetch Provider Info
+    // Fetch Provider Info            showAddServiceModal
     loadProviderData();
 
     // Load default section
@@ -22,6 +22,48 @@ document.addEventListener('DOMContentLoaded', () => {
             showSection(section);
         });
     });
+});
+
+// public/js/addService.js (or wherever your JS is for the form)
+document.addEventListener('DOMContentLoaded', async () => {
+    const categorySelect = document.getElementById('serviceCategory');
+  
+    try {
+      // Fetch categories from the API
+      const response = await fetch('/api/categories');
+      if (!response.ok) {
+        throw new Error('Failed to fetch categories');
+      }
+      const categories = await response.json();
+  
+      // Populate the select element with options
+      categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category.id;
+        option.textContent = category.name;
+        categorySelect.appendChild(option);
+      });
+    } catch (error) {
+      console.error('Error loading categories:', error);
+    }
+  });
+  
+
+//Show the Add Service model
+document.addEventListener('DOMContentLoaded', () => {
+    const addServiceButton = document.getElementById('addServiceButton');
+    addServiceButton.addEventListener('click', showAddServiceModal);
+});
+
+//Close the Add Service model
+document.addEventListener('DOMContentLoaded', () => {
+    const closebtn = document.getElementById('closebtn');
+    closebtn.addEventListener('click', hideAddServiceModal);
+});
+//Cancel the Add Service model
+document.addEventListener('DOMContentLoaded', () => {
+    const cancel = document.getElementById('cancel');
+    cancel.addEventListener('click', hideAddServiceModal);
 });
 
 // Function to show a specific section
